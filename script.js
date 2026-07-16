@@ -6,6 +6,8 @@ const results = document.getElementById("results");
 crawlBtn.addEventListener("click", function () {
 
     const url = urlInput.value.trim();
+    loading.textContent = "";
+    results.innerHTML = "";
     if (url === "") {
         alert("Please enter a URL");
         return;
@@ -18,19 +20,48 @@ crawlBtn.addEventListener("click", function () {
         return;
     }
         
-    loading.textContent = "Crawling website...";
-    setTimeout(function () {
-        loading.textContent = "";
-        const currentTime = new Date();
-        const time = currentTime.toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit"
-        });
-        results.innerHTML = `
-            <h2>SEO Report</h2>
-            <p><strong>Website:</strong> ${url}</p>
-            <p><strong>Status:</strong> Success ✅</p>
-            <p><strong>Time Crawled:</strong> ${time}</p>
-        `;
-    }, 2000);
+//     loading.textContent = "Crawling website...";
+//     setTimeout(function () {
+//         loading.textContent = "";
+//         const currentTime = new Date();
+//         const time = currentTime.toLocaleTimeString([], {
+//             hour: "2-digit",
+//             minute: "2-digit"
+//         });
+//         results.innerHTML = `
+//             <h2>SEO Report</h2>
+//             <p><strong>Website:</strong> ${url}</p>
+//             <p><strong>Status:</strong> Success ✅</p>
+//             <p><strong>Time Crawled:</strong> ${time}</p>
+//         `;
+//     }, 2000);
+// });
+
+loading.textContent = "Sending URL to backend...";
+
+fetch("http://localhost:3000/crawl", {
+    method: "POST",
+
+    headers: {
+        "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify({
+        url: url
+    })
+
+})
+.then(function(response) {
+
+    return response.text();
+
+})
+.then(function(data) {
+
+    loading.textContent = "";
+
+    results.innerHTML = `
+        <h2>${data}</h2>
+    `;
+
 });
