@@ -10,6 +10,14 @@ crawlBtn.addEventListener("click", function () {
         alert("Please enter a URL");
         return;
     }
+    try {
+        new URL(url);
+    }
+    catch {
+        results.innerHTML = `<p>❌ Invalid URL</p>`;
+        return;
+    }
+        
     loading.textContent = "Crawling website...";
     setTimeout(function () {
         loading.textContent = "";
