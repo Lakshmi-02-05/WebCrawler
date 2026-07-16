@@ -37,31 +37,32 @@ crawlBtn.addEventListener("click", function () {
 //     }, 2000);
 // });
 
-loading.textContent = "Sending URL to backend...";
+    loading.textContent = "Sending URL to backend...";
 
-fetch("http://localhost:3000/crawl", {
-    method: "POST",
+    fetch("http://localhost:3000/crawl", {
+        method: "POST",
 
-    headers: {
-        "Content-Type": "application/json"
-    },
+        headers: {
+            "Content-Type": "application/json"
+        },
 
-    body: JSON.stringify({
-        url: url
+        body: JSON.stringify({
+            url: url
+        })
+
     })
+    .then(function(response) {
 
-})
-.then(function(response) {
+        return response.text();
 
-    return response.text();
+    })
+    .then(function(data) {
 
-})
-.then(function(data) {
+        loading.textContent = "";
 
-    loading.textContent = "";
+        results.innerHTML = `
+            <h2>${data}</h2>
+        `;
 
-    results.innerHTML = `
-        <h2>${data}</h2>
-    `;
-
+});
 });
