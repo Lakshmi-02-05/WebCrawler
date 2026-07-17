@@ -38,8 +38,9 @@ crawlBtn.addEventListener("click", function () {
 // });
 
     loading.textContent = "Sending URL to backend...";
-
-    fetch("http://localhost:3000/crawl", {
+    // only for git 
+    fetch("https://special-guacamole-7v4qp7q9x7wg3p7pg-3000.app.github.dev/crawl" , {
+    // fetch("http://localhost:3000/crawl", { // for local device
         method: "POST",
 
         headers: {
